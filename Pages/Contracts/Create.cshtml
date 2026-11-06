@@ -1,0 +1,79 @@
+﻿@page
+@model WebPtichka.Pages.Contracts.CreateModel
+@{
+    ViewData["Title"] = "Оформить договор";
+}
+
+<h1>Оформить договор</h1>
+
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <div class="alert alert-danger">@Model.Error</div>
+}
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Клиент *</label>
+            <select asp-for="ClientId" asp-items="Model.ClientsList" class="form-select" required>
+                <option value="">— Выберите клиента —</option>
+            </select>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label class="form-label">Сотрудник *</label>
+            <select asp-for="EmployeeId" asp-items="Model.EmployeesList" class="form-select" required>
+                <option value="">— Выберите сотрудника —</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Зал *</label>
+        <select asp-for="HallId" asp-items="Model.HallsList" class="form-select" required>
+            <option value="">— Выберите зал —</option>
+        </select>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Дата мероприятия *</label>
+            <input asp-for="EventDate" type="date" class="form-control" required />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Время начала *</label>
+            <input asp-for="StartTime" type="time" class="form-control" required />
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <label class="form-label">Время окончания *</label>
+            <input asp-for="EndTime" type="time" class="form-control" required />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Статус договора</label>
+        <select asp-for="ContractStatus" class="form-select">
+            <option value="Активен">Активен</option>
+            <option value="Завершён">Завершён</option>
+            <option value="Отменён">Отменён</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">Дополнительные услуги</label>
+        <select asp-for="ServiceIds" class="form-select" multiple size="5">
+            @foreach (var s in Model.ServicesList)
+            {
+                <option value="@s.Id">@s.ServiceName (@s.ServicePrice ₽)</option>
+            }
+        </select>
+        <small class="text-muted">Зажмите Ctrl для выбора нескольких</small>
+    </div>
+
+    <hr />
+
+    <button type="submit" class="btn btn-success">Создать договор</button>
+    <a asp-page="/Contracts/Index" class="btn btn-secondary">Отмена</a>
+</form>

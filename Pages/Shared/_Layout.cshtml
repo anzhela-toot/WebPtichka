@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Птичка в кадре</title>
+    <script type="importmap"></script>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/WebPtichka.styles.css" asp-append-version="true" />
+</head>
+<body>
+    @if (User.Identity?.IsAuthenticated == true)
+    {
+        <!-- ФИКСИРОВАННАЯ ШАПКА -->
+        <header class="app-header">
+            <nav class="navbar navbar-expand-sm navbar-dark mb-0 h-100">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-page="/Index">
+                        <span class="brand-bird">🐦</span> Птичка в кадре
+                    </a>
+                    <div class="d-flex align-items-center ms-auto">
+                        <span class="navbar-text me-3 text-light">@User.FindFirst("FullName")?.Value</span>
+                        <form method="post" asp-page="/Account/Logout" class="d-inline">
+                            <button type="submit" class="btn btn-danger btn-sm">Выйти</button>
+                        </form>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- ФИКСИРОВАННАЯ БОКОВАЯ ПАНЕЛЬ -->
+        <nav class="app-sidebar">
+            <div class="pt-3">
+                <ul class="nav flex-column">
+                    @if (User.IsInRole("manager"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-light fw-bold mb-2" asp-page="/Manager/Index">Панель менеджера</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Clients/Clients">👥 Клиенты</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Halls/Index">🏛 Залы</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Services/Index">📷 Услуги</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Contracts/Index">📄 Договоры</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Schedule/Index">📅 Расписание</a></li>
+                    }
+                    else if (User.IsInRole("accountant"))
+                    {
+                        <li class="nav-item">
+                            <a class="nav-link text-light fw-bold mb-2" asp-page="/Accountant/Index">Панель бухгалтера</a>
+                        </li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Accountant/Invoices/Index">🧾 Счета</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Accountant/Payments/Index">💰 Платежи</a></li>
+                        <li class="nav-item"><a class="nav-link text-light" asp-page="/Accountant/Reports/Index">📊 Отчёты</a></li>
+                    }
+                </ul>
+            </div>
+        </nav>
+
+        <!-- КОНТЕНТ (с отступами, чтобы не заезжать под шапку и меню) -->
+        <main role="main" class="app-content">
+            @RenderBody()
+        </main>
+    }
+    else
+    {
+        <div class="container mt-5">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+    }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

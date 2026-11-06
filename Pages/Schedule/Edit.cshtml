@@ -1,0 +1,66 @@
+﻿@page
+@model WebPtichka.Pages.Schedule.EditModel
+@{
+    ViewData["Title"] = "Редактировать бронирование";
+}
+
+<h1>Редактировать бронирование</h1>
+
+@if (!string.IsNullOrEmpty(Model.Error))
+{
+    <div class="alert alert-danger">@Model.Error</div>
+}
+
+<form method="post">
+    <input type="hidden" asp-for="Schedule.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Schedule.BookingDate" class="form-label">Дата бронирования *</label>
+        <input asp-for="Schedule.BookingDate" type="date" class="form-control" required />
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Schedule.StartTime" class="form-label">Время начала *</label>
+            <input asp-for="Schedule.StartTime" type="time" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Schedule.EndTime" class="form-label">Время окончания *</label>
+            <input asp-for="Schedule.EndTime" type="time" class="form-control" required />
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Schedule.HallId" class="form-label">Зал *</label>
+        <select asp-for="Schedule.HallId" asp-items="Model.HallsList"
+                class="form-select" required>
+            <option value="">— Выберите зал —</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Schedule.ContractId" class="form-label">Договор *</label>
+        <select asp-for="Schedule.ContractId" asp-items="Model.ContractsList"
+                class="form-select" required>
+            <option value="">— Выберите договор —</option>
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Schedule.ScheduleStatus" class="form-label">Статус</label>
+        <select asp-for="Schedule.ScheduleStatus" class="form-select">
+            <option value="Подтверждено">Подтверждено</option>
+            <option value="Ожидает подтверждения">Ожидает подтверждения</option>
+            <option value="Отменено">Отменено</option>
+            <option value="Завершено">Завершено</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">Сохранить</button>
+    <a asp-page="/Schedule/Index" class="btn btn-secondary">Отмена</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

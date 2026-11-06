@@ -1,0 +1,181 @@
+﻿@page
+@model WebPtichka.Pages.Accountant.IndexModel
+@{
+    ViewData["Title"] = "Панель бухгалтера";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Панель бухгалтера</h1>
+    <p class="lead">
+        Добро пожаловать, <strong>@User.FindFirst("FullName")?.Value</strong>!
+    </p>
+</div>
+
+<!-- ============ Виджеты ============ -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <a asp-page="/Accountant/Reports/Index" class="text-decoration-none">
+            <div class="card border-success h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">💰 Доход за месяц</h6>
+                    <p class="card-text fs-3 fw-bold text-success">
+                        @Model.MonthIncome.ToString("N2") ₽
+                    </p>
+                    <small class="text-muted">@Model.MonthPaymentsCount платежей</small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-page="/Accountant/Invoices/Index" asp-route-status="Выставлен" class="text-decoration-none">
+            <div class="card border-warning h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">⏳ Ожидает оплаты</h6>
+                    <p class="card-text fs-3 fw-bold text-warning">
+                        @Model.TotalUnpaid.ToString("N2") ₽
+                    </p>
+                    <small class="text-muted">@Model.UnpaidInvoicesCount счетов</small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-page="/Accountant/Invoices/Index" class="text-decoration-none">
+            <div class="card border-primary h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">📋 Выставлено за месяц</h6>
+                    <p class="card-text fs-3 fw-bold text-primary">
+                        @Model.MonthInvoicesCount
+                    </p>
+                    <small class="text-muted">счетов</small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-page="/Accountant/Reports/Index" class="text-decoration-none">
+            <div class="card border-danger h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">⚠️ Просрочено</h6>
+                    <p class="card-text fs-3 fw-bold text-danger">
+                        @Model.OverdueCount
+                    </p>
+                    <small class="text-muted">счетов старше 30 дней</small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- ============ Разделы ============ -->
+<div class="row mb-4">
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Счета</h5>
+                <p class="card-text">Выставление и учёт счетов</p>
+                <a asp-page="/Accountant/Invoices/Index" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Платежи</h5>
+                <p class="card-text">Поступления и оплаты клиентов</p>
+                <a asp-page="/Accountant/Payments/Index" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4 mb-3">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">Отчёты</h5>
+                <p class="card-text">Финансовая отчётность</p>
+                <a asp-page="/Accountant/Reports/Index" class="btn btn-primary">Перейти</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ Две таблицы в ряд ============ -->
+<div class="row g-3">
+    <!-- Последние платежи -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>📥 Последние платежи</strong>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.RecentPayments.Count == 0)
+                {
+                    <p class="text-muted p-3 mb-0">Платежей пока нет.</p>
+                }
+                else
+                {
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Клиент</th>
+                                <th class="text-end">Сумма</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var p in Model.RecentPayments)
+                            {
+                                <tr>
+                                    <td>@p.PaymentDate.ToString("dd.MM")</td>
+                                    <td>@p.Invoice?.Contract?.Client?.FullName</td>
+                                    <td class="text-end fw-bold">@p.Amount.ToString("N2") ₽</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Ближайшие события -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>📅 Ближайшие события (7 дней)</strong>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.UpcomingBookings.Count == 0)
+                {
+                    <p class="text-muted p-3 mb-0">На ближайшую неделю бронирований нет.</p>
+                }
+                else
+                {
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Время</th>
+                                <th>Зал</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in Model.UpcomingBookings)
+                            {
+                                <tr>
+                                    <td>@s.BookingDate.ToString("dd.MM")</td>
+                                    <td>@s.StartTime.ToString("HH:mm")–@s.EndTime.ToString("HH:mm")</td>
+                                    <td>@s.Hall?.HallName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,218 @@
+﻿@page
+@model WebPtichka.Pages.Manager.IndexModel
+@{
+    ViewData["Title"] = "Панель менеджера";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Панель менеджера</h1>
+    <p class="lead">
+        Добро пожаловать, <strong>@User.FindFirst("FullName")?.Value</strong>!
+    </p>
+</div>
+
+<!-- ============ Виджеты (кликабельные) ============ -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <a asp-page="/Clients/Clients" class="text-decoration-none">
+            <div class="card border-primary h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">👥 Клиентов всего</h6>
+                    <p class="card-text fs-3 fw-bold text-primary">
+                        @Model.TotalClients
+                    </p>
+                    <small class="text-muted">в базе</small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-page="/Contracts/Index" class="text-decoration-none">
+            <div class="card border-success h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">📄 Договоров за месяц</h6>
+                    <p class="card-text fs-3 fw-bold text-success">
+                        @Model.MonthContractsCount
+                    </p>
+                    <small class="text-muted">оформлено</small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-page="/Schedule/Index" class="text-decoration-none">
+            <div class="card border-warning h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">📅 Событий на неделе</h6>
+                    <p class="card-text fs-3 fw-bold text-warning">
+                        @Model.WeekBookingsCount
+                    </p>
+                    <small class="text-muted">бронирований</small>
+                </div>
+            </div>
+        </a>
+    </div>
+
+    <div class="col-md-3">
+        <a asp-page="/Contracts/Index" asp-route-status="Активен" class="text-decoration-none">
+            <div class="card border-info h-100 card-hover">
+                <div class="card-body">
+                    <h6 class="card-subtitle mb-2 text-muted">✅ Активных договоров</h6>
+                    <p class="card-text fs-3 fw-bold text-info">
+                        @Model.ActiveContractsCount
+                    </p>
+                    <small class="text-muted">в работе</small>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+
+<!-- ============ Разделы ============ -->
+<div class="container mt-4 mb-4">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Клиенты</h5>
+                    <p class="card-text">Управление информацией о клиентах</p>
+                    <a asp-page="/Clients/Clients" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Залы</h5>
+                    <p class="card-text">Просмотр и управление залами</p>
+                    <a asp-page="/Halls/Index" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Услуги</h5>
+                    <p class="card-text">Дополнительные услуги</p>
+                    <a asp-page="/Services/Index" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Договоры</h5>
+                    <p class="card-text">Оформление договоров аренды</p>
+                    <a asp-page="/Contracts/Index" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <div class="card h-100">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Расписание</h5>
+                    <p class="card-text">График бронирований</p>
+                    <a asp-page="/Schedule/Index" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ Две таблицы в ряд ============ -->
+<div class="row g-3">
+    <!-- Ближайшие бронирования -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>📅 Ближайшие бронирования</strong>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.UpcomingBookings.Count == 0)
+                {
+                    <p class="text-muted p-3 mb-0">Бронирований нет.</p>
+                }
+                else
+                {
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Время</th>
+                                <th>Зал</th>
+                                <th>Клиент</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var s in Model.UpcomingBookings)
+                            {
+                                <tr>
+                                    <td>@s.BookingDate.ToString("dd.MM")</td>
+                                    <td>@s.StartTime.ToString("HH:mm")–@s.EndTime.ToString("HH:mm")</td>
+                                    <td>@s.Hall?.HallName</td>
+                                    <td>@s.Contract?.Client?.FullName</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Последние договоры -->
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <strong>📄 Последние договоры</strong>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.RecentContracts.Count == 0)
+                {
+                    <p class="text-muted p-3 mb-0">Договоров пока нет.</p>
+                }
+                else
+                {
+                    <table class="table table-sm mb-0">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Клиент</th>
+                                <th class="text-end">Сумма</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var c in Model.RecentContracts)
+                            {
+                                <tr>
+                                    <td>@c.ContractNumber</td>
+                                    <td>@c.Client?.FullName</td>
+                                    <td class="text-end fw-bold">@c.TotalAmount.ToString("N2") ₽</td>
+                                    <td>
+                                        @{
+                                            var statusClass = c.ContractStatus?.ToLower() switch
+                                            {
+                                                "активен" or "active" => "badge bg-success",
+                                                "завершён" or "завершен" or "completed" => "badge bg-secondary",
+                                                "отменён" or "отменен" or "cancelled" => "badge bg-danger",
+                                                _ => "badge bg-warning text-dark"
+                                            };
+                                        }
+                                        <span class="@statusClass">@c.ContractStatus</span>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

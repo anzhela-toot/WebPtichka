@@ -1,0 +1,76 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Главная";
+}
+
+<div class="text-center mb-4">
+    <h1 class="display-4">Птичка в кадре</h1>
+    <p class="lead">
+        Добро пожаловать, <strong>@User.FindFirst("FullName")?.Value</strong>!
+    </p>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Клиенты</h5>
+                    <p class="card-text">Управление информацией о клиентах</p>
+                    <a href="/Clients/Clients" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Залы</h5>
+                    <p class="card-text">Просмотр и управление залами</p>
+                    <a href="/Halls" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Услуги</h5>
+                    <p class="card-text">Дополнительные услуги</p>
+                    <a href="/Services" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Договоры</h5>
+                    <p class="card-text">Оформление договоров аренды</p>
+                    <a href="/Contracts" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Расписание</h5>
+                    <p class="card-text">График бронирований</p>
+                    <a href="/Schedule" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Платежи</h5>
+                    <p class="card-text">Учёт платежей</p>
+                    <a href="/Payments" class="btn btn-primary">Перейти</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

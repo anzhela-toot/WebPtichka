@@ -1,0 +1,434 @@
+/* ============================================
+   Птичка в кадре — палитра
+   ============================================ */
+:root {
+    --ptichka-bg: #FAF7F2; /* тёплый кремовый фон */
+    --ptichka-bg-soft: #F3EDE3; /* чуть темнее — карточки */
+    --ptichka-navbar: #1C1C1E; /* графит, как корпус камеры */
+    --ptichka-navbar-hover: #2A2A2E;
+    --ptichka-gold: #D4A24C; /* тёплое золото — "вспышка" */
+    --ptichka-gold-dark: #B8893A;
+    --ptichka-rose: #C98B7A; /* пудрово-терракотовый */
+    --ptichka-text: #3D3D3D;
+    --ptichka-heading: #1A1A1A;
+    --ptichka-border: #E8E0D5;
+    --ptichka-success: #7C9885;
+    --ptichka-danger: #C05746;
+    --ptichka-warning: #E0A458;
+    /* Переопределяем Bootstrap */
+    --bs-body-bg: #FAF7F2;
+    --bs-body-color: #3D3D3D;
+    --bs-primary: #D4A24C;
+    --bs-danger: #C05746;
+    --bs-success: #7C9885;
+    --bs-warning: #E0A458;
+    --bs-border-color: #E8E0D5;
+}
+
+/* ============================================
+   База
+   ============================================ */
+html {
+    font-size: 15px;
+}
+
+body {
+    background-color: var(--ptichka-bg);
+    color: var(--ptichka-text);
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5 {
+    color: var(--ptichka-heading);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+h1 {
+    font-size: 2rem;
+}
+
+h2 {
+    font-size: 1.5rem;
+}
+
+a {
+    color: var(--ptichka-gold-dark);
+}
+
+    a:hover {
+        color: var(--ptichka-gold);
+    }
+
+/* ============================================
+   Навбар — графит с золотым акцентом
+   ============================================ */
+.navbar {
+    background-color: var(--ptichka-navbar) !important;
+    border-bottom: 3px solid var(--ptichka-gold) !important;
+    padding: 0.75rem 1rem;
+}
+
+    .navbar .navbar-brand {
+        color: #FFFFFF !important;
+        font-weight: 700;
+        font-size: 1.25rem;
+        letter-spacing: 0.02em;
+    }
+
+        .navbar .navbar-brand .brand-bird {
+            color: var(--ptichka-gold);
+            margin-right: 6px;
+        }
+
+    .navbar .nav-link {
+        color: #D5D0C8 !important;
+        transition: color 0.15s ease;
+    }
+
+        .navbar .nav-link:hover {
+            color: var(--ptichka-gold) !important;
+        }
+
+    .navbar .navbar-text {
+        color: #E8E0D5 !important;
+        font-weight: 500;
+    }
+
+.navbar-toggler {
+    border-color: var(--ptichka-gold);
+}
+
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23D4A24C' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+/* ============================================
+   Кнопки
+   ============================================ */
+.btn-primary {
+    background-color: var(--ptichka-gold);
+    border-color: var(--ptichka-gold);
+    color: #FFFFFF;
+    font-weight: 500;
+}
+
+    .btn-primary:hover,
+    .btn-primary:focus {
+        background-color: var(--ptichka-gold-dark);
+        border-color: var(--ptichka-gold-dark);
+        color: #FFFFFF;
+    }
+
+.btn-danger {
+    background-color: var(--ptichka-danger);
+    border-color: var(--ptichka-danger);
+}
+
+    .btn-danger:hover {
+        background-color: #A34632;
+        border-color: #A34632;
+    }
+
+.btn-success {
+    background-color: var(--ptichka-success);
+    border-color: var(--ptichka-success);
+}
+
+.btn-outline-primary {
+    color: var(--ptichka-gold-dark);
+    border-color: var(--ptichka-gold);
+}
+
+    .btn-outline-primary:hover {
+        background-color: var(--ptichka-gold);
+        border-color: var(--ptichka-gold);
+        color: #FFF;
+    }
+
+/* ============================================
+   Карточки, формы, таблицы
+   ============================================ */
+.card {
+    background-color: #FFFFFF;
+    border: 1px solid var(--ptichka-border);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(28, 28, 30, 0.04);
+}
+
+.card-header {
+    background-color: var(--ptichka-bg-soft);
+    border-bottom: 1px solid var(--ptichka-border);
+    font-weight: 600;
+    color: var(--ptichka-heading);
+}
+
+.form-control,
+.form-select {
+    background-color: #FFFFFF;
+    border: 1px solid var(--ptichka-border);
+    color: var(--ptichka-text);
+    border-radius: 8px;
+}
+
+    .form-control:focus,
+    .form-select:focus {
+        border-color: var(--ptichka-gold);
+        box-shadow: 0 0 0 0.2rem rgba(212, 162, 76, 0.25);
+    }
+
+.form-label {
+    font-weight: 500;
+    color: var(--ptichka-heading);
+}
+
+.table {
+    color: var(--ptichka-text);
+}
+
+    .table thead th {
+        background-color: var(--ptichka-bg-soft);
+        color: var(--ptichka-heading);
+        border-bottom: 2px solid var(--ptichka-border);
+        font-weight: 600;
+    }
+
+.table-hover tbody tr:hover {
+    background-color: var(--ptichka-bg-soft);
+}
+
+/* ============================================
+   Футер
+   ============================================ */
+.footer {
+    background-color: var(--ptichka-bg-soft);
+    border-top: 1px solid var(--ptichka-border) !important;
+    padding: 1rem 0;
+    color: #8A8478;
+    font-size: 0.9rem;
+}
+
+    .footer a {
+        color: var(--ptichka-gold-dark);
+        text-decoration: none;
+    }
+
+        .footer a:hover {
+            color: var(--ptichka-gold);
+            text-decoration: underline;
+        }
+
+/* ============================================
+   Алёрты
+   ============================================ */
+.alert-danger {
+    background-color: #F5E3DE;
+    border-color: var(--ptichka-danger);
+    color: #7A2A1E;
+}
+
+.alert-success {
+    background-color: #E4EDE6;
+    border-color: var(--ptichka-success);
+    color: #3F5443;
+}
+
+/* ============================================
+   Страница логина — чуть крупнее и по центру
+   ============================================ */
+.login-wrapper {
+    max-width: 420px;
+    margin: 60px auto;
+    padding: 32px;
+    background-color: #FFFFFF;
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(28, 28, 30, 0.06);
+    border: 1px solid var(--ptichka-border);
+}
+
+/* ============================================
+   Кнопки — фикс синего при клике/фокусе
+   ============================================ */
+
+/* Основная кнопка (золотая) */
+.btn-primary,
+.btn-primary:focus,
+.btn-primary:focus-visible,
+.btn-primary:active,
+.btn-primary.active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:not(:disabled):not(.disabled).active,
+.show > .btn-primary.dropdown-toggle {
+    background-color: #D4A24C !important;
+    border-color: #D4A24C !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 0 0.2rem rgba(212, 162, 76, 0.35) !important;
+    outline: none !important;
+}
+
+    /* При наведении — чуть темнее */
+.btn-primary:hover {
+    background-color: #B8893A !important;
+        border-color: #B8893A !important;
+    color: #FFFFFF !important;
+}
+
+/* Убираем синюю обводку у всех кнопок */
+.btn:focus,
+.btn:focus-visible,
+.btn:active:focus,
+.btn.active:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 0.2rem rgba(212, 162, 76, 0.35) !important;
+}
+
+/* Красная кнопка «Выйти» — то же самое для консистентности */
+.btn-danger,
+.btn-danger:focus,
+.btn-danger:focus-visible,
+.btn-danger:active,
+.btn-danger.active {
+    background-color: #C05746 !important;
+    border-color: #C05746 !important;
+    color: #FFFFFF !important;
+    box-shadow: 0 0 0 0.2rem rgba(192, 87, 70, 0.35) !important;
+    outline: none !important;
+}
+
+.btn-danger:hover {
+    background-color: #A34632 !important;
+    border-color: #A34632 !important;
+}
+
+/* Карточки на панелях */
+.card {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    border: 1px solid var(--ptichka-border);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(28, 28, 30, 0.08);
+}
+
+.card-title {
+    color: var(--ptichka-heading);
+    font-weight: 600;
+}
+
+.card-text {
+    color: #6B6B6B;
+    font-size: 0.95rem;
+}
+
+.card-hover {
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+}
+
+/* ============ Календарь ============ */
+.calendar-table td {
+    height: 60px;
+}
+
+.booking-block {
+    transition: transform 0.1s, box-shadow 0.1s;
+    border-left: 3px solid #B8893A;
+}
+
+.booking-block:hover {
+    transform: scale(1.02);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+    background: #B8893A !important;
+}
+
+/* ============ Боковая панель ============ */
+.sidebar .nav-link {
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 2px;
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+    .sidebar .nav-link:hover {
+        background-color: #E8E0D5;
+        color: var(--ptichka-gold-dark) !important;
+    }
+
+    /* Активный пункт меню (подсвечивается по совпадению URL) */
+    .sidebar .nav-link.active {
+        background-color: var(--ptichka-gold);
+        color: #FFFFFF !important;
+        font-weight: 500;
+    }
+
+/* =========================================
+   ИДЕАЛЬНАЯ ФИКСАЦИЯ ШАПКИ И ПАНЕЛИ
+   ========================================= */
+
+/* 1. Шапка */
+.app-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 70px;
+    background-color: #1C1C1E;
+    border-bottom: 1px solid #D4A24C;
+    z-index: 1050;
+}
+
+/* 2. Боковая панель */
+.app-sidebar {
+    position: fixed;
+    top: 70px; /* Начинается ровно под шапкой */
+    left: 0;
+    bottom: 0; /* Тянется до самого низа */
+    width: 250px; /* Фиксированная ширина */
+    background-color: #1C1C1E;
+    border-right: 1px solid #D4A24C;
+    overflow-y: auto; /* Внутренний скролл, если меню длинное */
+    z-index: 1040;
+}
+
+/* 3. Основной контент */
+.app-content {
+    margin-top: 70px; /* Сдвиг вниз под шапку */
+    margin-left: 250px; /* Сдвиг вправо под меню */
+    padding: 20px;
+    min-height: calc(100vh - 70px);
+    background-color: var(--ptichka-bg);
+}
+
+/* 4. Красивые ссылки в меню */
+.app-sidebar .nav-link {
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    border-radius: 0 8px 8px 0; /* Скругление только справа */
+    margin-right: 10px;
+}
+
+    .app-sidebar .nav-link:hover {
+        background-color: #2A2A2E;
+        color: var(--ptichka-gold) !important;
+        padding-left: 25px; /* Анимация сдвига */
+    }
+
+/* 5. Скроллбар для меню */
+.app-sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.app-sidebar::-webkit-scrollbar-track {
+    background: #1C1C1E;
+}
+
+.app-sidebar::-webkit-scrollbar-thumb {
+    background: #D4A24C;
+    border-radius: 3px;
+}

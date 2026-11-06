@@ -1,0 +1,23 @@
+﻿@page
+@model WebPtichka.Pages.Account.LoginModel
+
+<h2>Вход в систему «Птичка»</h2>
+
+<form method="post">
+    <div class="mb-3">
+        <label>Логин</label>
+        <input asp-for="Username" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label>Пароль</label>
+        <input asp-for="Password" type="password" class="form-control" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Войти</button>
+
+    @if (!string.IsNullOrEmpty(Model.Error))
+    {
+        <div class="alert alert-danger mt-3">@Model.Error</div>
+    }
+</form>

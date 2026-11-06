@@ -1,0 +1,139 @@
+﻿@page
+@model WebPtichka.Pages.Halls.IndexModel
+@{
+    ViewData["Title"] = "Залы";
+}
+
+<h1>Залы</h1>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="mb-3">
+    <a asp-page="/Halls/Create" class="btn btn-success">Добавить зал</a>
+</div>
+
+<!-- Поиск и фильтры -->
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label">Поиск</label>
+                <input type="text" name="search" value="@Model.Search"
+                       class="form-control"
+                       placeholder="Название или описание..." />
+            </div>
+
+            <div class="col-md-3">
+                <label class="form-label">Статус</label>
+                <select name="status" class="form-select">
+                    <option value="">Все статусы</option>
+                    @foreach (var s in Model.StatusesList)
+                    {
+                        <option value="@s" selected="@(s == Model.Status)">@s</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Вместимость от</label>
+                <input type="number" name="capacityMin" value="@Model.CapacityMin"
+                       class="form-control" min="0" />
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">до</label>
+                <input type="number" name="capacityMax" value="@Model.CapacityMax"
+                       class="form-control" min="0" />
+            </div>
+
+            <div class="col-md-1 d-flex gap-1">
+                <button type="submit" class="btn btn-primary" title="Найти">🔍</button>
+                <a asp-page="/Halls/Index" class="btn btn-secondary" title="Сбросить">✕</a>
+            </div>
+        </form>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Search) || !string.IsNullOrWhiteSpace(Model.Status)
+             || Model.CapacityMin.HasValue || Model.CapacityMax.HasValue)
+        {
+            <div class="mt-2 text-muted small">
+                Найдено: <strong>@Model.Halls.Count</strong> из @Model.TotalCount
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Таблица -->
+@if (!Model.Halls.Any())
+{
+    <div class="alert alert-info">
+        @if (!string.IsNullOrWhiteSpace(Model.Search) || !string.IsNullOrWhiteSpace(Model.Status)
+             || Model.CapacityMin.HasValue || Model.CapacityMax.HasValue)
+        {
+            <span>🔍 По вашему запросу ничего не найдено.
+                <a asp-page="/Halls/Index">Сбросить фильтры</a></span>
+        }
+        else
+        {
+            <span>Пока нет ни одного зала.</span>
+        }
+    </div>
+}
+else
+{
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Вместимость</th>
+                <th>Цена за час</th>
+                <th>Статус</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var hall in Model.Halls)
+            {
+                <tr>
+                    <td>
+                        <strong>@hall.HallName</strong>
+                        @if (!string.IsNullOrWhiteSpace(hall.Description))
+                        {
+                            <br /><small class="text-muted">@hall.Description</small>
+                        }
+                    </td>
+                    <td>@hall.Capacity чел.</td>
+                    <td>@hall.PricePerHour.ToString("N2") ₽</td>
+                    <td>
+                        @{
+                            var statusClass = hall.HallStatus?.ToLower() switch
+                            {
+                                "доступен" or "available" => "badge bg-success",
+                                "занят" or "busy" => "badge bg-warning text-dark",
+                                "ремонт" or "maintenance" => "badge bg-danger",
+                                _ => "badge bg-secondary"
+                            };
+                        }
+                        <span class="@statusClass">@hall.HallStatus</span>
+                    </td>
+                    <td class="text-nowrap">
+                        <a asp-page="/Halls/Edit" asp-route-id="@hall.Id"
+                           class="btn btn-sm btn-primary">Изменить</a>
+
+                        <form method="post" asp-page-handler="Delete"
+                              asp-route-id="@hall.Id" class="d-inline"
+                              onsubmit="return confirm('Удалить зал «@hall.HallName»?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
